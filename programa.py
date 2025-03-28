@@ -116,37 +116,17 @@ if __name__ == '__main__':
     system('cls')
 
     L = LSE()
+
+    n = randrange(11)
+    for i in range(n):
+        L.inserta(randrange(101))
     L.muestra()
     print()
 
-    for i in range(10):
-        x = randrange(101)
-        # print(f'Se inserta {x}')
-        L.inserta(x)
-        # L.muestra()
-        # print()
+    cont = 0
+    aux = L.primero
+    while aux != None:
+        cont = cont+1
+        aux = aux.siguiente
 
-    L.muestra()
-    print()
-
-    x = int(input('A quién buscas? '))
-    if L.busca(x):
-        print(f'{x} ESTÁ en la lista =)')
-    else:
-        print(f'{x} NO está en la lista =(')
-
-    print(f'Se eliminó {L.eliminaAlInicio()}')
-    L.muestra()
-    print()
-
-    print(f'Se eliminó {L.eliminaAlFinal()}')
-    L.muestra()
-    print()
-
-    x = int(input('A quién eliminas? '))
-    if L.elimina(x):
-        print(f'{x} FUE ELIMINADO de la lista =)')
-    else:
-        print(f'{x} NO fue eliminado de la lista =(')
-    L.muestra()
-    print()
+    print(f'¿{n} == {cont}?')
