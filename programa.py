@@ -30,6 +30,20 @@ class LSE:
             x = self.eliminaAlInicio()
             print(f'Se elimina {x}')
 
+    def generaListaOrdenada(self, n):
+        self.liberaMemoria()
+        for i in range(n):
+            x = randrange(101)
+            # print(f'Se inserta {x}')
+            self.inserta(x)
+
+    def generaListaDesordenada(self, n):
+        self.liberaMemoria()
+        for i in range(n):
+            x = randrange(101)
+            # print(f'Se inserta {x}')
+            self.insertaAlFinal(x)
+
     def insertaAlInicio(self, dato):
         if self.estaVacia():
             self.primero = Nodo(dato, None)
@@ -138,12 +152,36 @@ class LSE:
 if __name__ == '__main__':
     system('cls')
 
-    L = LSE()
+    L1 = LSE()
     n = randrange(11)
-    for i in range(n):
-        x = randrange(101)
-        L.inserta(x)
+    L1.generaListaDesordenada(n)
+    print()
 
-    L.muestra()
+    L2 = LSE()
+    n = randrange(11)
+    L2.generaListaDesordenada(n)
+    print()
+
+    L3 = LSE()
+
+    aux = L1.primero
+    while aux!=None:
+        L3.insertaAlFinal(aux.dato)
+        aux=aux.siguiente
+
+
+    aux = L2.primero
+    while aux!=None:
+        L3.insertaAlFinal(aux.dato)
+        aux=aux.siguiente
+
+
+    L1.muestra()
+    print()
+    L2.muestra()
+    print()
+    L3.muestra()
+    print()
+
     print('\n\nFin del programa\n\n')
 
