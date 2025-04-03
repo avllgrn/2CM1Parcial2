@@ -149,19 +149,7 @@ class LSE:
 
             aux1.siguiente = Nodo(dato, aux2)
 
-if __name__ == '__main__':
-    system('cls')
-
-    L1 = LSE()
-    n = randrange(11)
-    L1.generaListaDesordenada(n)
-    print()
-
-    L2 = LSE()
-    n = randrange(11)
-    L2.generaListaDesordenada(n)
-    print()
-
+def concatena(L1, L2):
     L3 = LSE()
 
     aux = L1.primero
@@ -175,6 +163,22 @@ if __name__ == '__main__':
         L3.insertaAlFinal(aux.dato)
         aux=aux.siguiente
 
+    return L3
+
+if __name__ == '__main__':
+    system('cls')
+
+    L1 = LSE()
+    n = randrange(11)
+    L1.generaListaDesordenada(n)
+    print()
+
+    L2 = LSE()
+    n = randrange(11)
+    L2.generaListaDesordenada(n)
+    print()
+
+    L3 = concatena(L1, L2)
 
     L1.muestra()
     print()
