@@ -165,27 +165,27 @@ class LSE:
 
         return L3
 
-def uneOrdenadamente(L1, L2):
-    L3 = LSE()
+    def uneOrdenadamente(self, OtraLista):
+        L3 = LSE()
 
-    aux1 = L1.primero
-    aux2 = L2.primero
-    while aux1!=None and aux2!=None:
-        if aux1.dato <= aux2.dato:
+        aux1 = self.primero
+        aux2 = OtraLista.primero
+        while aux1!=None and aux2!=None:
+            if aux1.dato <= aux2.dato:
+                L3.insertaAlFinal(aux1.dato)
+                aux1=aux1.siguiente
+            else:
+                L3.insertaAlFinal(aux2.dato)
+                aux2=aux2.siguiente
+
+        while aux1!=None:
             L3.insertaAlFinal(aux1.dato)
             aux1=aux1.siguiente
-        else:
+
+        while aux2!=None:
             L3.insertaAlFinal(aux2.dato)
             aux2=aux2.siguiente
-
-    while aux1!=None:
-        L3.insertaAlFinal(aux1.dato)
-        aux1=aux1.siguiente
-
-    while aux2!=None:
-        L3.insertaAlFinal(aux2.dato)
-        aux2=aux2.siguiente
-    return L3
+        return L3
 
 if __name__ == '__main__':
     system('cls')
@@ -200,7 +200,7 @@ if __name__ == '__main__':
     L2.generaListaOrdenada(n)
     print()
 
-    L3 = uneOrdenadamente(L1, L2)
+    L3 = L1.uneOrdenadamente(L2)
 
     L1.muestra()
     print()
