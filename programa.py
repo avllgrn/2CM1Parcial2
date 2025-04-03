@@ -170,15 +170,34 @@ if __name__ == '__main__':
 
     L1 = LSE()
     n = randrange(11)
-    L1.generaListaDesordenada(n)
+    L1.generaListaOrdenada(n)
     print()
 
     L2 = LSE()
     n = randrange(11)
-    L2.generaListaDesordenada(n)
+    L2.generaListaOrdenada(n)
     print()
 
-    L3 = L1.concatena(L2)
+    L3 = LSE()
+
+    aux1 = L1.primero
+    aux2 = L2.primero
+    while aux1!=None and aux2!=None:
+        if aux1.dato <= aux2.dato:
+            L3.insertaAlFinal(aux1.dato)
+            aux1=aux1.siguiente
+        else:
+            L3.insertaAlFinal(aux2.dato)
+            aux2=aux2.siguiente
+
+    while aux1!=None:
+        L3.insertaAlFinal(aux1.dato)
+        aux1=aux1.siguiente
+
+    while aux2!=None:
+        L3.insertaAlFinal(aux2.dato)
+        aux2=aux2.siguiente
+
 
     L1.muestra()
     print()
