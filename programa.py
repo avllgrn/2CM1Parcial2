@@ -205,14 +205,28 @@ class LSE:
 if __name__ == '__main__':
     system('cls')
 
-    L = LSE()
-    n = randrange(11)
-    L.generaListaOrdenada(n)
+    Original = LSE()
 
-    L.muestra()
+    n = randrange(11)
+    Original.generaListaOrdenada(n)
+
+    Copia = LSE()
+    aux=Original.primero
+    while aux!=None:
+        Copia.insertaAlFinal(aux.dato)
+        aux=aux.siguiente
+
+    Original.muestra()
+    print()
+    Copia.muestra()
     print()
 
-    L.muestraInvertida()
+    Copia.eliminaAlFinal()
+    print()
+
+    Original.muestra()
+    print()
+    Copia.muestra()
     print()
 
 
