@@ -186,17 +186,8 @@ class LSE:
             L3.insertaAlFinal(aux2.dato)
             aux2=aux2.siguiente
         return L3
-
-if __name__ == '__main__':
-    system('cls')
-
-    L = LSE()
-    n = randrange(11)
-    L.generaListaOrdenada(n)
-
-    L.muestra()
-    print()
-
+    
+def muestraInvertida(L):
     if not L.estaVacia():
         auxP = L.primero
         auxU = L.ultimo
@@ -210,3 +201,19 @@ if __name__ == '__main__':
             auxP = L.primero
             
         print(f'| {auxU.dato} |', end=' ')
+
+if __name__ == '__main__':
+    system('cls')
+
+    L = LSE()
+    n = randrange(11)
+    L.generaListaOrdenada(n)
+
+    L.muestra()
+    print()
+
+    muestraInvertida(L)
+    print()
+
+
+
