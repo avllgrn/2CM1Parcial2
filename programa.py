@@ -210,12 +210,12 @@ class LSE:
             aux=aux.siguiente
         
 
-def generaInvertida(Origen, Destino):
-    Destino.liberaMemoria()
-    aux=Origen.primero
-    while aux!=None:
-        Destino.insertaAlInicio(aux.dato)
-        aux=aux.siguiente
+    def generaInvertida(self, Destino):
+        Destino.liberaMemoria()
+        aux=self.primero
+        while aux!=None:
+            Destino.insertaAlInicio(aux.dato)
+            aux=aux.siguiente
     
 if __name__ == '__main__':
     system('cls')
@@ -226,7 +226,7 @@ if __name__ == '__main__':
     n = randrange(11)
     L.generaListaOrdenada(n)
 
-    generaInvertida(L, I)
+    L.generaInvertida(I)
 
     L.muestra()
     print()
