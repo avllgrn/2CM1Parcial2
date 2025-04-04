@@ -212,18 +212,18 @@ class LSE:
 if __name__ == '__main__':
     system('cls')
 
-    Original = LSE()
-    Copia = LSE()
+    L = LSE()
+    I = LSE()
 
     n = randrange(11)
-    Original.generaListaOrdenada(n)
+    L.generaListaOrdenada(n)
 
-    Original.copia(Copia)
-    Original.copia(Copia)
+    aux=L.primero
+    while aux!=None:
+        I.insertaAlInicio(aux.dato)
+        aux=aux.siguiente
 
-    Original.muestra()
+    L.muestra()
     print()
-    Copia.muestra()
+    I.muestra()
     print()
-
-
