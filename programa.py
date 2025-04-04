@@ -202,19 +202,24 @@ class LSE:
                 
             print(f'| {auxU.dato} |', end=' ')
 
+def copia(Origen, Destino):
+    Destino.liberaMemoria()
+    aux=Origen.primero
+    while aux!=None:
+        Destino.insertaAlFinal(aux.dato)
+        aux=aux.siguiente
+        
 if __name__ == '__main__':
     system('cls')
 
     Original = LSE()
+    Copia = LSE()
 
     n = randrange(11)
     Original.generaListaOrdenada(n)
 
-    Copia = LSE()
-    aux=Original.primero
-    while aux!=None:
-        Copia.insertaAlFinal(aux.dato)
-        aux=aux.siguiente
+    copia(Original, Copia)
+    copia(Original, Copia)
 
     Original.muestra()
     print()
