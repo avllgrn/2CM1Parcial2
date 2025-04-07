@@ -2,19 +2,24 @@ from os import system
 from random import randrange
 
 class Nodo:
-    def __init__(self, dato=None, siguiente=None):
+    def __init__(self, previo=None, dato=None, siguiente=None):
+        self.previo = previo
         self.dato = dato
         self.siguiente = siguiente
 
     def __str__(self):
-        cadena = '| ' + str(self.dato) + ' |'
+        cadena =''
+        if self.previo != None:
+            cadena += '<- '
+
+        cadena += '| ' + str(self.dato) + ' |'
 
         if self.siguiente != None:
-            cadena += ' -> '
+            cadena += ' ->'
         
         return cadena
     
-class LSE:
+class LDE:
     def __init__(self):
         self.primero = None
         self.ultimo = None
@@ -30,33 +35,20 @@ class LSE:
             x = self.eliminaAlInicio()
             #print(f'Se elimina {x}')
 
-    def generaListaOrdenada(self, n):
-        self.liberaMemoria()
-        for i in range(n):
-            x = randrange(101)
-            # print(f'Se inserta {x}')
-            self.inserta(x)
-
-    def generaListaDesordenada(self, n):
-        self.liberaMemoria()
-        for i in range(n):
-            x = randrange(101)
-            # print(f'Se inserta {x}')
-            self.insertaAlFinal(x)
-
     def insertaAlInicio(self, dato):
         if self.estaVacia():
-            self.primero = Nodo(dato, None)
+            self.primero = Nodo(None, dato, None)
             self.ultimo = self.primero
         else:
-            self.primero = Nodo(dato, self.primero)
+            self.primero.previo = Nodo(None, dato, self.primero)
+            self.primero = self.primero.previo
 
     def insertaAlFinal(self, dato):
         if self.estaVacia():
-            self.ultimo = Nodo(dato, None)
+            self.ultimo = Nodo(None, dato, None)
             self.primero = self.ultimo
         else:
-            self.ultimo.siguiente = Nodo(dato, None)
+            self.ultimo.siguiente = Nodo(self.ultimo, dato, None)
             self.ultimo = self.ultimo.siguiente
         
     def muestra(self):
@@ -64,6 +56,16 @@ class LSE:
         while aux != None:
             print(aux, end='')
             aux = aux.siguiente
+
+    def muestraInvretida(self):
+        aux = self.ultimo
+        while aux != None:
+            if aux.siguiente != None:
+                print('<- ', end='')
+            print(f'| {aux.dato} |', end='')
+            if aux.previo != None:
+                print(' ->', end='')
+            aux = aux.previo
 
     def busca(self, dato):
         aux = self.primero
@@ -86,6 +88,7 @@ class LSE:
             aux = self.primero
             x = aux.dato
             self.primero = self.primero.siguiente
+            self.primero.previo = None
             del aux
         return x
 
@@ -98,16 +101,11 @@ class LSE:
             self.ultimo=None
             self.primero=None
         else:
-            aux = self.primero
+            aux = self.ultimo
             x = self.ultimo.dato
-            
-            aux = self.primero
-            while aux.siguiente != self.ultimo:
-                aux = aux.siguiente
-
-            del self.ultimo
-            self.ultimo = aux
+            self.ultimo = self.ultimo.previo
             self.ultimo.siguiente = None
+            del aux
         return x
 
     def elimina(self, dato):
@@ -129,6 +127,8 @@ class LSE:
                 return False
             else:
                 aux1.siguiente = aux2.siguiente
+                aux1 = aux2.siguiente
+                aux1.previo = aux2.previo
                 del aux2
                 return True
             
@@ -147,88 +147,41 @@ class LSE:
                 aux1 = aux1.siguiente
                 aux2 = aux2.siguiente
 
-            aux1.siguiente = Nodo(dato, aux2)
-
-    def concatena(self, OtraLista):
-        L3 = LSE()
-
-        aux = self.primero
-        while aux!=None:
-            L3.insertaAlFinal(aux.dato)
-            aux=aux.siguiente
+            aux1.siguiente = Nodo(aux1, dato, aux2)
+            aux2.previo = aux1.siguiente
 
 
-        aux = OtraLista.primero
-        while aux!=None:
-            L3.insertaAlFinal(aux.dato)
-            aux=aux.siguiente
-
-        return L3
-
-    def uneOrdenadamente(self, OtraLista):
-        L3 = LSE()
-
-        aux1 = self.primero
-        aux2 = OtraLista.primero
-        while aux1!=None and aux2!=None:
-            if aux1.dato <= aux2.dato:
-                L3.insertaAlFinal(aux1.dato)
-                aux1=aux1.siguiente
-            else:
-                L3.insertaAlFinal(aux2.dato)
-                aux2=aux2.siguiente
-
-        while aux1!=None:
-            L3.insertaAlFinal(aux1.dato)
-            aux1=aux1.siguiente
-
-        while aux2!=None:
-            L3.insertaAlFinal(aux2.dato)
-            aux2=aux2.siguiente
-        return L3
-    
-    def muestraInvertida(self):
-        if not self.estaVacia():
-            auxP = self.primero
-            auxU = self.ultimo
-            while auxP!=auxU:
-                print(f'| {auxU.dato} | <-', end=' ')
-
-                while auxP.siguiente!=auxU:
-                    auxP = auxP.siguiente
-                
-                auxU = auxP
-                auxP = self.primero
-                
-            print(f'| {auxU.dato} |', end=' ')
-
-    def copia(self, Destino):
-        Destino.liberaMemoria()
-        aux=self.primero
-        while aux!=None:
-            Destino.insertaAlFinal(aux.dato)
-            aux=aux.siguiente
-        
-
-    def generaInvertida(self, Destino):
-        Destino.liberaMemoria()
-        aux=self.primero
-        while aux!=None:
-            Destino.insertaAlInicio(aux.dato)
-            aux=aux.siguiente
-    
 if __name__ == '__main__':
     system('cls')
-
-    L = LSE()
-    I = LSE()
-
+    L = LDE()
     n = randrange(11)
-    L.generaListaOrdenada(n)
+    for i in range(n):
+        x = randrange(101)
+        print(f'Se inserta {x}')
+        L.inserta(x)
 
-    L.generaInvertida(I)
-
+    print('\n\nL  -> ', end='')
     L.muestra()
     print()
-    I.muestra()
-    print()
+    print('LI -> ', end='')
+    L.muestraInvretida()
+    print('\n\n')
+
+    if not L.estaVacia():
+        print(f'Se elimina {L.eliminaAlInicio()}')
+        L.muestra()
+        print('\n\n')
+
+    if not L.estaVacia():
+        print(f'Se elimina {L.eliminaAlFinal()}')
+        L.muestra()
+        print()
+        print('\n\n')
+
+    x = int(input('A quién eliminas? '))
+    if L.elimina(x):
+        print(f'SE eliminó {x} =)')
+    else:
+        print(f'NO se eliminó {x} =(')
+    L.muestra()
+    print('\n\n')
