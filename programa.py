@@ -57,7 +57,7 @@ class LDE:
             print(aux, end='')
             aux = aux.siguiente
 
-    def muestraInvretida(self):
+    def muestraInvertida(self):
         aux = self.ultimo
         while aux != None:
             if aux.siguiente != None:
@@ -68,13 +68,30 @@ class LDE:
             aux = aux.previo
 
     def busca(self, dato):
-        aux = self.primero
-        while aux != None:
-            if aux.dato == dato:
-                return True
-            aux = aux.siguiente
+        if self.estaVacia():
+            return False
+        else:
+            aux1 = self.primero
+            aux2 = self.ultimo
+            while aux1!=aux2 and aux1.siguiente!=aux2:
+                print(f'¿{aux1.dato} = {dato} o {aux2.dato} = {dato}?')
+                if aux1.dato == dato or aux2.dato == dato:
+                    return True
+                aux1 = aux1.siguiente
+                aux2 = aux2.previo
 
-        return False
+            if aux1==aux2 and aux1.dato==dato:
+                print(f'¿{aux1.dato} = {dato} o {aux2.dato} = {dato}?')
+                return True
+            elif aux1.siguiente==aux2 and aux1.dato==dato:
+                print(f'¿{aux1.dato} = {dato} o {aux2.dato} = {dato}?')
+                return True
+            elif aux1.siguiente==aux2 and aux2.dato==dato:
+                print(f'¿{aux1.dato} = {dato} o {aux2.dato} = {dato}?')
+                return True
+            else:
+                print(f'¿{aux1.dato} = {dato} o {aux2.dato} = {dato}?')
+                return False
 
     def eliminaAlInicio(self):
         if self.estaVacia():
@@ -109,7 +126,7 @@ class LDE:
         return x
 
     def elimina(self, dato):
-        if self.estaVacia():
+        if self.estaVacia() or (self.primero==self.ultimo and dato!=self.primero.dato):
             return False
         elif dato == self.primero.dato:
             self.eliminaAlInicio()
@@ -120,68 +137,124 @@ class LDE:
         else:
             aux1 = self.primero
             aux2 = self.primero.siguiente
-            while aux2 != None and dato != aux2.dato:
+            aux3 = self.ultimo
+            aux4 = self.ultimo.previo
+
+            # mietras los auxiliares no se encuentren en medio ni uno al lado del otro, ni el dato lo encuentre aux2 ni el dato lo encuentre aux4, despláza los auxiliares
+            while aux2!=aux4 and aux2.siguiente!=aux4 and aux2.previo!=aux4 and dato != aux2.dato and dato != aux4.dato:
+                print(f'¿{dato} = {aux2.dato}? o ¿{dato} = {aux4.dato}?')
                 aux1 = aux1.siguiente
                 aux2 = aux2.siguiente
-            if aux2 == None:
+                aux3 = aux3.previo
+                aux4 = aux4.previo            
+
+            if dato!=aux2.dato and dato!=aux4.dato:
+                print(f'¿{dato} = {aux2.dato}? o ¿{dato} = {aux4.dato}?')
                 return False
-            else:
+            elif dato==aux2.dato:
+                print(f'¿{dato} = {aux2.dato}? o ¿{dato} = {aux4.dato}?')
                 aux1.siguiente = aux2.siguiente
                 aux1 = aux2.siguiente
                 aux1.previo = aux2.previo
                 del aux2
                 return True
+            else:
+                print(f'¿{dato} = {aux2.dato}? o ¿{dato} = {aux4.dato}?')
+                aux3.previo = aux4.previo
+                aux3 = aux4.previo
+                aux3.siguiente = aux4.siguiente
+                del aux4
+                return True
             
     def inserta(self, dato):
         if self.estaVacia() or dato <= self.primero.dato:
             self.insertaAlInicio(dato)
-
         elif dato >= self.ultimo.dato:
             self.insertaAlFinal(dato)
-
         else:
             aux1 = self.primero
             aux2 = self.primero.siguiente
+            aux3 = self.ultimo
+            aux4 = self.ultimo.previo
 
-            while dato > aux2.dato:
+            while dato >= aux2.dato and dato<=aux4.dato:
                 aux1 = aux1.siguiente
                 aux2 = aux2.siguiente
+                aux3 = aux3.previo
+                aux4 = aux4.previo
 
-            aux1.siguiente = Nodo(aux1, dato, aux2)
-            aux2.previo = aux1.siguiente
+            if dato < aux2.dato:
+                aux1.siguiente = Nodo(aux1, dato, aux2)
+                aux2.previo = aux1.siguiente
+            else:
+                aux4.siguiente = Nodo(aux4, dato, aux3)
+                aux3.previo = aux4.siguiente
 
 
 if __name__ == '__main__':
     system('cls')
     L = LDE()
-    n = randrange(11)
+
+    n = randrange(15)
     for i in range(n):
-        x = randrange(101)
+        x = randrange(11)
         print(f'Se inserta {x}')
         L.inserta(x)
+        print('L  -> ', end='')
+        L.muestra()
+        print()
+        print('LI -> ', end='')
+        L.muestraInvertida()
+        print('\n\n')
 
-    print('\n\nL  -> ', end='')
+    input('Presiona una tecla para continuar...')
+    system('cls')
+
+    print('L  -> ', end='')
     L.muestra()
     print()
     print('LI -> ', end='')
-    L.muestraInvretida()
+    L.muestraInvertida()
     print('\n\n')
 
-    if not L.estaVacia():
-        print(f'Se elimina {L.eliminaAlInicio()}')
-        L.muestra()
-        print('\n\n')
+    n = randrange(15)
+    for i in range(n):
+        x = randrange(11)
+        print(f'Se intenta buscar {x}')
+        if L.busca(x):
+            print(f'{x} FUE encontrado')
+        else:
+            print(f'{x} NO fue encontrado')
 
-    if not L.estaVacia():
-        print(f'Se elimina {L.eliminaAlFinal()}')
+        print('L  -> ', end='')
         L.muestra()
         print()
+        print('LI -> ', end='')
+        L.muestraInvertida()
         print('\n\n')
 
-    x = int(input('A quién eliminas? '))
-    if L.elimina(x):
-        print(f'SE eliminó {x} =)')
-    else:
-        print(f'NO se eliminó {x} =(')
+    input('Presiona una tecla para continuar...')
+    system('cls')
+
+    print('L  -> ', end='')
     L.muestra()
+    print()
+    print('LI -> ', end='')
+    L.muestraInvertida()
     print('\n\n')
+
+    n = randrange(15)
+    for i in range(n):
+        x = randrange(11)
+        print(f'Se intenta eliminar {x}')
+        if L.elimina(x):
+            print(f'{x} FUE eliminado')
+        else:
+            print(f'{x} NO fue eliminado')
+
+        print('L  -> ', end='')
+        L.muestra()
+        print()
+        print('LI -> ', end='')
+        L.muestraInvertida()
+        print('\n\n')
