@@ -1,17 +1,16 @@
 from os import system
 
-def potenciaRecursiva(a, b):
-    # print(f'potenciaRecursiva({a}, {b})')
-    if b>1:
-        return a * potenciaRecursiva(a, b-1)
+def factorial(n):
+    # print(f'factorial({n})')
+    if n==0:
+        return 1
     else:
-        return a
+        return n * factorial(n-1)
 
 if __name__ == '__main__':
     system('cls')
 
-    a = int(input('Ingresa a '))
-    b = int(input('Ingresa b '))
-    c = potenciaRecursiva(a, b)
+    n = int(input('Ingresa n '))
+    f = factorial(n)
 
-    print(f'{a} ** {b} = {c}')
+    print(f'{n}! = {f}')
