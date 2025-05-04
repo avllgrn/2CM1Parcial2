@@ -1,16 +1,26 @@
 from os import system
 
-def fibonacci(n):
-    # print(f'fibonacci({n})')
-    if n==0 or n==1:
-        return n
-    else:
-        return fibonacci(n-1) + fibonacci(n-2)
+def palindromoR(cadena, ini, fin):
+    if cadena[ini] != cadena[fin]:
+        return False
+    elif ini<fin:
+        palindromoR(cadena, ini+1, fin-1)
+    return True
+
+def esPalindromoR(cadena):
+    editada = ''
+    for caracter in cadena:
+        if caracter.isalnum():
+            editada += caracter.upper()
+
+    return palindromoR(editada, 0, len(editada)-1)
 
 if __name__ == '__main__':
     system('cls')
 
-    n = int(input('Ingresa n '))
-    f = fibonacci(n)
+    cadena = input('Ingresa cadena ')
 
-    print(f'fibonacci(n) = {f}')
+    if esPalindromoR(cadena):
+        print('ES palíndromo =)')
+    else:
+        print('NO es palíndromo =(')
