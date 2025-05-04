@@ -1,16 +1,16 @@
 from os import system
 
-def factorial(n):
-    # print(f'factorial({n})')
-    if n==0:
-        return 1
+def fibonacci(n):
+    # print(f'fibonacci({n})')
+    if n==0 or n==1:
+        return n
     else:
-        return n * factorial(n-1)
+        return fibonacci(n-1) + fibonacci(n-2)
 
 if __name__ == '__main__':
     system('cls')
 
     n = int(input('Ingresa n '))
-    f = factorial(n)
+    f = fibonacci(n)
 
-    print(f'{n}! = {f}')
+    print(f'fibonacci(n) = {f}')
